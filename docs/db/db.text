@@ -1,0 +1,77 @@
+package com.javatar2.logging.domain;
+
+import javax.persistence.*;
+import java.sql.Date;
+import java.util.Objects;
+
+@Entity
+@Table(name = "BOOK")
+@SequenceGenerator(
+        name = "book-sequence",
+        sequenceName = "BOOK_SEQ",
+        allocationSize = 1000, initialValue = 10000)
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Book {
+    private Object id;
+    private String title;
+    private String author;
+    private Date submissionDate;
+
+    @Id
+    @Column(name = "ID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "book-sequence")
+    public Object getId() {
+        return id;
+    }
+
+    public void setId(Object id) {
+        this.id = id;
+    }
+
+    @Basic
+    @Column(name = "TITLE")
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @Basic
+    @Column(name = "AUTHOR")
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    @Basic
+    @Column(name = "SUBMISSION_DATE")
+    public Date getSubmissionDate() {
+        return submissionDate;
+    }
+
+    public void setSubmissionDate(Date submissionDate) {
+        this.submissionDate = submissionDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return Objects.equals(id, book.id) &&
+                Objects.equals(title, book.title) &&
+                Objects.equals(author, book.author) &&
+                Objects.equals(submissionDate, book.submissionDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, author, submissionDate);
+    }
+}
